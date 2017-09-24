@@ -1,0 +1,27 @@
+{
+  "name": "awesome-node-util",
+  "version": "1.0.0",
+  "description": "utilities for node application",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/congnt24/AwesomeNodeUtil.git"
+  },
+  "keywords": [
+    "utility",
+    "node-util",
+    "node"
+  ],
+  "author": "@congnt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/congnt24/AwesomeNodeUtil/issues"
+  },
+  "homepage": "https://github.com/congnt24/AwesomeNodeUtil#readme",
+  "dependencies": {
+    "moment": "^2.18.1"
+  }
+}

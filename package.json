@@ -1,6 +1,6 @@
 {
   "name": "awesome-node-util",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "utilities for node application",
   "main": "index.js",
   "scripts": {

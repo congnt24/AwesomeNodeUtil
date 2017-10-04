@@ -9,7 +9,7 @@ module.exports = {
         for (var i = 0, len = keys.length; i < len; i++) {
             var key = keys[i];
             var value = object[key];
-            if (!value || value == null) {
+            if (value == undefined || value == NaN || value === '' || value == null) {
                 throw new Error(key + ' cannot be null.');
             }
         }

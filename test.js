@@ -11,4 +11,4 @@ console.log(utils.Crypto.md5('this is a key'));
 console.log(utils.Crypto.sha1('this is a key'));
 console.log(utils.Crypto.sha256('this is a key'));
 
-utils.Validate.validateEmpty({firstname: "cong", lastname: null});
+utils.Validate.validateEmpty({firstname: "cong", lastname: 0});

@@ -1,4 +1,4 @@
-var moment = require('moment')
+var moment = require('moment');
 
 module.exports = {
     toDate: function (stringDate, format) {
@@ -12,7 +12,15 @@ module.exports = {
      * @param newFormat YYYY-MM-DD
      * @returns {string}
      */
-    toNewFormat: function (stringDate, oldFormat, newFormat) {
+    toNewFormat: function (stringDate, oldFormat, newFormat = 'YYYY-MM-DD') {
         return moment(stringDate, oldFormat).format(newFormat)
+    },
+
+    toStartDate: function (stringDate, oldFormat, newFormat = 'YYYY-MM-DD', utc) {
+        return moment(stringDate, oldFormat).format(newFormat + ' 00:00:00' + utc)
+    },
+
+    toEndDate: function (stringDate, oldFormat, newFormat = 'YYYY-MM-DD', utc) {
+        return moment(stringDate, oldFormat).format(newFormat + ' 23:59:59' + utc)
     }
-}
+};

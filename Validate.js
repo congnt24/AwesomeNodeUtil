@@ -25,27 +25,31 @@ module.exports = {
         for (var i = 0, len = keys.length; i < len; i++) {
             var key = keys[i];
             var value = object[key];
-            var validate_obj = validate_objs[key];
-            if (value === undefined || value == NaN || value === '' || value === null) {
-                if (!validate_obj.optional) {
-                    throw new Error(key + ' cannot be null.');
-                }
-            }
+
             //trim value if it's string
             if (typeof value === 'string') {
                 value = value.trim();
                 object[key] = value;
+            }
+            var validate_obj = validate_objs[key];
+            if (!validate_obj) {
+                continue
+            }
+            if (value === undefined || value == NaN || value === '' || value === null) {
+                if (!validate_obj.optional) {
+                    throw new Error(validate_obj.error_code || key + ' cannot be null.');
+                }
             }
             if (validate_obj) {
                 validate_obj.min = validate_obj.min || 0;
                 validate_obj.max = validate_obj.max || Number.MAX_VALUE;
                 if (typeof value === 'string') {
                     if (value.length < validate_obj.min || value.length > validate_obj.max) {
-                        throw new Error(key + ' must in range ' + validate_obj.min + ' - ' + validate_obj.max + '.');
+                        throw new Error(validate_obj.error_code || key + ' must in range ' + validate_obj.min + ' - ' + validate_obj.max + '.');
                     }
                     //validate no space in string
                     if (validate_obj.no_white_space && value.indexOf(' ') !== -1) {
-                        throw new Error(key + ' cannot have white space inside.');
+                        throw new Error(validate_obj.error_code || key + ' cannot have white space inside.');
                     }
                     //parse json
                     if (validate_obj.is_json) {
@@ -54,23 +58,23 @@ module.exports = {
                 }
                 if (typeof value === 'number') {
                     if (value < validate_obj.min || value > validate_obj.max) {
-                        throw new Error(key + ' must in range ' + validate_obj.min + ' - ' + validate_obj.max + '.');
+                        throw new Error(validate_obj.error_code || key + ' must in range ' + validate_obj.min + ' - ' + validate_obj.max + '.');
                     }
                     //condition between 2 field
                     if (validate_obj.gt && value <= object[validate_obj.gt]) {
-                        throw new Error(key + ' must be greater than ' + validate_obj.gt);
+                        throw new Error(validate_obj.error_code || key + ' must be greater than ' + validate_obj.gt);
                     } else if (validate_obj.gte && value < object[validate_obj.gte]) {
-                        throw new Error(key + ' must be greater than or equal to ' + validate_obj.gte);
+                        throw new Error(validate_obj.error_code || key + ' must be greater than or equal to ' + validate_obj.gte);
                     } else if (validate_obj.lt && value >= object[validate_obj.lt]) {
-                        throw new Error(key + ' must be less than ' + validate_obj.lt);
+                        throw new Error(validate_obj.error_code || key + ' must be less than ' + validate_obj.lt);
                     } else if (validate_obj.lte && value > object[validate_obj.lte]) {
-                        throw new Error(key + ' must be less than or equal to ' + validate_obj.lte);
+                        throw new Error(validate_obj.error_code || key + ' must be less than or equal to ' + validate_obj.lte);
                     }
                 }
 
                 if (validate_obj.in && Array.isArray(validate_obj.in)) {
                     if (validate_obj.in.indexOf(value) === -1) {
-                        throw new Error(key + ' must in '+JSON.stringify(validate_obj.in));
+                        throw new Error(validate_obj.error_code || key + ' must in ' + JSON.stringify(validate_obj.in));
                     }
                 }
             }
